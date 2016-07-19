@@ -1,0 +1,55 @@
+
+#weather {
+padding: 10px;
+}
+
+#row-1 {
+  text-align: center;
+  font-size: 28px;
+  margin: 20px auto;
+
+}
+
+
+#temp {
+  height: 100px;
+}
+
+#row-2 {
+  font-size: 20px;
+  margin: 20px auto;
+}
+
+button {
+  font-family: 'Trade Winds';
+  font-size: 16px;
+  padding: 8px;
+  margin-top: 9px;
+  border: 2px solid black;
+  background-color: white;
+  border-radius: 4px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555555;
+    color: white;
+}
+
+#row-2 div {
+background-color: white;
+font-family: 'Trade Winds';
+height: 60px;
+margin-right: 20px;
+padding: 10px;
+text-align: center;
+}
+
+#row-5 {
+  font-family: 'Trade Winds';
+  font-style: normal;
+  font-weight: lighter;
+  -webkit-transition: all 0.25s linear;
+}

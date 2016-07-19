@@ -1,0 +1,227 @@
+<html>
+<head>
+  <link href='https://fonts.googleapis.com/css?family=Trade+Winds' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="../css/weather.css">
+  <div class="container-fluid" id="wrapper">
+        <header>
+          <h1 style="font-family: 'Trade Winds', cursive; text-align: center;">Weather Source X</h1>
+        </header>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <style>
+    body {
+      background-color: white;
+
+  }
+
+  </style>
+
+</head>
+
+
+<body>
+
+<id="weather">
+            <div class="row" id="row-1">
+                <div class="col-xs-5 col-xs-offset-5" id="picture"></div>
+
+            </div>
+            <div class="row" id="row-2">
+                <div class="col-xs-3 col-xs-offset-2" id="area"></div>
+                <div class="col-xs-2" id="conditions"></div>
+                <div class="col-xs-2" id="wind-speed"></div>
+
+            </div>
+
+            <div class="row" id="row-5">
+                <div class="col-xs-4 col-xs-offset-4">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-primary active">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked>Fahrenheit
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id="option2" autocomplete="off">Celsius
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-success">Get Weather</button>
+        </div>
+
+<!-- <button type="button" id="cel" class="inactive" onclick="SetCelsius();">&deg;C</button>
+<button type="button" id="far" class="inactive" onclick="SetFahrenheit();">&deg;F</button> -->
+
+<!-- <script>
+$.ajax({
+    url:"http://api.openweathermap.org/data/2.5/weather?q="+ "Portland,OR" +"&appid=697d00238636c7f196a9d9547c8fffe6",
+    method: 'GET',
+    success:function(data) {
+      console.log(data);
+    }
+ });
+ if (navigator.geolocation) {
+    //Return the user's longitude and latitude on page load using HTML5 geolocation API
+    window.onload = function () {
+    var currentPosition;
+    function getCurrentLocation (position) {
+        currentPosition = position;
+        latitude = currentPosition.coords.latitude;
+        longitude = currentPosition.coords.longitude;
+        //AJAX request
+        $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&APPID=******************", function (data) {
+            var rawJson = JSON.stringify(data);
+            var json = JSON.parse(rawJson);
+            updateWeather(json); //Update Weather parameters
+        });
+    }
+    navigator.geolocation.getCurrentPosition(getCurrentLocation);
+    };
+
+    var weather = json.weather[0].description;
+      if(weather.indexOf("rain") >= 0) {
+          skycons.set("animated-icon", Skycons.RAIN);
+      }
+      else if (weather.indexOf("sunny") >= 0) {
+          skycons.set("animated-icon", Skycons.CLEAR_DAY);
+      };
+ //var temp = Math.round((data.main.temp * 1.8 - 459.87) * 100) / 100 ;
+</script> -->
+<script>
+var lat = 0.0,
+    lon = 0.0;
+
+var testURL = 'http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=2de143494c0b295cca9337e1e96b00e0';
+var myURL = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid="ae0acb60e8db4952e081c2fb470a1b23"';
+
+var city = '',
+    state = '',
+    country = '',
+    postal = 0;
+
+
+//if (navigator.geolocation) {
+//    /* geolocation is available */
+//    navigator.geolocation.getCurrentPosition(function (position) {
+//        lat = position.coords.latitude;
+//        lon = position.coords.longitude;
+//        console.log("Latitude = " + lat);
+//        console.log("Longitude = " + lon);
+//
+//        display(position.coords.latitude, position.coords.longitude);
+//    });
+//
+//} else {
+//    /* geolocation IS NOT available */
+//    $("#jumbotron").html("geolocation not available");
+//
+//}
+
+//get co-ordinates using ipinfo.io
+$.getJSON('http://ipinfo.io', function (data) {
+    console.log(data);
+    var loc = data.loc;
+    lat = loc.split(",")[0];
+    lon = loc.split(",")[1];
+    display(lat, lon);
+    city = data.city;
+    state = data.region;
+    country = data.country;
+    postal = parseInt(data.postal, 10);
+
+})
+
+
+function display(x, y) {
+    $("#pos1").html("<b>" + x + "</b>");
+    $("#pos2").html("<b>" + y + "</b>");
+}
+
+//function to calculate wind direction from degrees
+function degToCompass(num) {
+    //num = parseInt(num, 10);
+    console.log("Inside degtocompass = " + num);
+
+    var val = Math.floor((num / 22.5) + 0.5);
+    var arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    return arr[(val % 16)];
+}
+
+//function to return current temperature
+function convertTemp(currTemp) {
+
+
+    return Math.round(currTemp - 225.27);
+}
+
+$("button").click(function () {
+    console.log("In Latitude = " + lat);
+    console.log("In Longitude = " + lon);
+
+    //prepare api call
+    $.ajax({
+        url: 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&appid=ae0acb60e8db4952e081c2fb470a1b23',
+        //url: testURL,
+        type: 'GET', // The HTTP Method, can be GET POST PUT DELETE etc
+        data: {}, // Additional parameters here
+        dataType: 'json',
+        success: function (data) {
+
+            console.log(data);
+
+            //---------get the clipart---------------
+            var picLink = 'http://openweathermap.org/img/w/';
+            var picName = data.weather[0].icon;
+            picLink += picName + ".png";
+
+            $("#picture").empty().append('<img src="' + picLink + '">');
+
+
+            //----------get the temperature-----------
+            var curTemp = convertTemp(data.main.temp);
+            console.log("Current temp = " + curTemp);
+            //$("#temp").empty().append("<b>" + curTemp + "</b>");
+            $("#picture").append("<b>" + curTemp + "</b>");
+
+
+
+            //----------get the place----------------------
+            var area = city + ", " + state + ", " + country;
+            $("#area").empty().append("<b>" + area + "</b>");
+
+
+            //----------get weather conditions------------
+            $("#conditions").empty().append("<b>" + data.weather[0].description + "</b>");
+
+            //----------get wind speed------------
+            //get wind direction
+            var windSpeed = degToCompass(data.wind.deg);
+            //add wind speed
+            windSpeed += ' ' + data.wind.speed;
+            //display wind speed
+            $("#wind-speed").empty().append("<b>" + windSpeed + "</b>");
+
+
+
+
+
+        },
+        error: function (err) {
+            alert(err);
+        },
+      //  beforeSend: function (xhr) {
+            //xhr.setRequestHeader("X-Mashape-Authorization", "32ROUuaq9wmshfk8uIxfd5dMc6H7p1lqdZSjsnXkB5bQtBteLK"); // Enter here your Mashape key
+      //  }
+    });
+
+});
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
