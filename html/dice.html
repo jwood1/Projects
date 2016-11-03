@@ -1,0 +1,48 @@
+
+<html>
+<link rel="stylesheet" href="../css/dic.css">
+
+<body>
+
+<div class='content'>
+  <div><h1>Enter a number of dice to roll!</h1></div>
+  <div>
+    <input type='text' id='number' placeholder='Number of dice'><button id='submit'>Enter</button>
+  </div>
+<div id='chatterBox'></div>
+<div id='dice'></div>
+
+<script>
+//$('submit').click(function)
+document.getElementById("submit").addEventListener("click", function(event) {
+  document.getElementById("dice").innerHTML = "";
+  var num = document.getElementById("number").value;
+  if (num > 200) {
+    document.getElementById("chatterBox").innerHTML = " Please enter a number of dice less that 200."
+  } else {
+    numberOfDice(num);
+  }
+});
+
+function sixSidedDice() {
+  return Math.floor(Math.random() * 6) + 1;
+}
+function numberOfDice(num) {
+  var arr = [];
+  for (var i = 0; i < num; i++) {
+    arr.push(sixSidedDice())
+  }
+  renderToHtml(arr);
+}
+function renderToHtml(arr) {
+  var div = document.getElementById('dice')
+  arr.forEach(function(x) {
+    div.innerHTML += '<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/436722/' + x + '.png">'
+  })
+}
+</script>
+
+</div>
+
+</body>
+</html>
